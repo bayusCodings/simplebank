@@ -1,17 +1,17 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-name: ci-test
+name: Run unit tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
 
-  build:
+  test:
     name: Test
     runs-on: ubuntu-latest
 
@@ -30,6 +30,8 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    steps:
+
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
@@ -42,7 +44,7 @@ jobs:
     - name: Install golang-migrate
       run: |
         curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.2/migrate.linux-amd64.tar.gz | tar xvz
-        sudo mv migrate.linux-amd64 /usr/bin/migrate
+        sudo mv migrate /usr/bin/migrate
         which migrate
 
     - name: Run migrations
